@@ -12,26 +12,26 @@ import net.mostlyoriginal.api.utils.builder.WorldConfigurationBuilder;
 @Wire
 public class DropPoweredByArtemisOdb extends ApplicationAdapter {
 
-	private World world;
+  private World world;
 
-	@Override
-	public void create () {
-		world = new World(new WorldConfigurationBuilder()
+  @Override
+  public void create () {
+    world = new World(new WorldConfigurationBuilder()
         .with(new AssetManager())
-				.with(new GroupManager())
-				.with(new RenderingSystem())
+        .with(new GroupManager())
+        .with(new RenderingSystem())
         .with(new GravitySystem())
         .with(new SpawningSystem())
-				.with(new PlayerControlSystem())
-				.with(new CollisionDetectionSystem())
-				.build());
-		world.getManager(AssetManager.class).playMusic(AssetManager.MusicFile.RAIN);
-	}
+        .with(new PlayerControlSystem())
+        .with(new CollisionDetectionSystem())
+        .build());
+    world.getManager(AssetManager.class).playMusic(AssetManager.MusicFile.RAIN);
+  }
 
-	@Override
-	public void render () {
-		world.setDelta(Gdx.graphics.getDeltaTime());
-		world.process();
+  @Override
+  public void render () {
+    world.setDelta(Gdx.graphics.getDeltaTime());
+    world.process();
 
-	}
+  }
 }
