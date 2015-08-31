@@ -18,6 +18,9 @@ public class CollisionDetectionSystem extends EntityProcessingSystem {
   protected ComponentMapper<Bounds>  boundsMapper;
   ImmutableBag<Entity> buckets;
 
+  private GroupManager groupManager;
+  private AssetManager assetManager;
+
   public enum CollisionGroup {
     DROPLET, // We never actually use DROPLET. However, it might find use should more collidables be added.
     BUCKET
@@ -29,7 +32,7 @@ public class CollisionDetectionSystem extends EntityProcessingSystem {
 
   @Override
   protected void begin() {
-    buckets = world.getManager(GroupManager.class).getEntities(CollisionGroup.BUCKET.name());
+    buckets = groupManager.getEntities(CollisionGroup.BUCKET.name());
   }
 
   @Override
@@ -44,7 +47,7 @@ public class CollisionDetectionSystem extends EntityProcessingSystem {
     Bounds bucketBounds = boundsMapper.get(bucket);
     if (overlaps(dropletPosition, dropletBounds, bucketPosition, bucketBounds)) {
       droplet.deleteFromWorld();
-      world.getManager(AssetManager.class).get(AssetManager.SoundFile.SPLASH).play();
+      assetManager.get(AssetManager.SoundFile.SPLASH).play();
     }
   }
 

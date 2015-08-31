@@ -15,6 +15,8 @@ public class GravitySystem extends EntityProcessingSystem {
   protected ComponentMapper<Gravity> gravityMapper;
   protected ComponentMapper<Position>  positionMapper;
 
+  private AssetManager assetManager;
+
   public GravitySystem() {
     super(Aspect.all(Position.class, Gravity.class));
   }
@@ -27,7 +29,7 @@ public class GravitySystem extends EntityProcessingSystem {
     position.y -= gravity.fallSpeed * world.delta;
     if(position.y + 64 < 0) {
       e.deleteFromWorld();
-      world.getManager(AssetManager.class).get(AssetManager.SoundFile.SPLASH).play();
+      assetManager.get(AssetManager.SoundFile.SPLASH).play();
     }
   }
 }

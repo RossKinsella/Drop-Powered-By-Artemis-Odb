@@ -5,6 +5,7 @@ import com.artemis.annotations.Wire;
 import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import ie.rosskinsella.DropPoweredByArtemisOdb.managers.AssetManager;
 import ie.rosskinsella.DropPoweredByArtemisOdb.systems.*;
 import net.mostlyoriginal.api.utils.builder.WorldConfigurationBuilder;
@@ -16,7 +17,7 @@ public class DropPoweredByArtemisOdb extends ApplicationAdapter {
 
   @Override
   public void create () {
-    world = new World(new WorldConfigurationBuilder()
+    WorldConfiguration configuration = new WorldConfigurationBuilder()
         .with(new AssetManager())
         .with(new GroupManager())
         .with(new RenderingSystem())
@@ -24,14 +25,19 @@ public class DropPoweredByArtemisOdb extends ApplicationAdapter {
         .with(new SpawningSystem())
         .with(new PlayerControlSystem())
         .with(new CollisionDetectionSystem())
-        .build());
-    world.getManager(AssetManager.class).playMusic(AssetManager.MusicFile.RAIN);
+        .build();
+
+    OrthographicCamera camera = new OrthographicCamera();
+    camera.setToOrtho(false, 800, 480);
+    configuration.register(camera); // This allows @Wire access to the camera
+
+    world = new World(configuration);
+    world.getManager(AssetManager.class).playMusic(AssetManager.MusicFile.RAIN); // Could be in the initialize of a 'MusicSystem'
   }
 
   @Override
   public void render () {
     world.setDelta(Gdx.graphics.getDeltaTime());
     world.process();
-
   }
 }
