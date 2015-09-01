@@ -7,10 +7,8 @@ import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import ie.rosskinsella.DropPoweredByArtemisOdb.components.Bounds;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.PlayerControlled;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Position;
-import ie.rosskinsella.DropPoweredByArtemisOdb.components.SpriteReference;
 
 @Wire
 public class PlayerControlSystem extends EntityProcessingSystem {
