@@ -2,7 +2,6 @@ package ie.rosskinsella.DropPoweredByArtemisOdb;
 
 import com.artemis.*;
 import com.artemis.annotations.Wire;
-import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,7 +18,6 @@ public class DropPoweredByArtemisOdb extends ApplicationAdapter {
   public void create () {
     WorldConfiguration configuration = new WorldConfigurationBuilder()
         .with(new AssetManager())
-        .with(new GroupManager())
         .with(new RenderingSystem())
         .with(new GravitySystem())
         .with(new SpawningSystem())

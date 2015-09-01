@@ -9,38 +9,27 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Bounds;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Collectible;
+import ie.rosskinsella.DropPoweredByArtemisOdb.components.Collector;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Position;
 import ie.rosskinsella.DropPoweredByArtemisOdb.managers.AssetManager;
+import net.mostlyoriginal.api.system.core.DualEntityProcessingSystem;
 
 @Wire
-public class CollisionDetectionSystem extends EntityProcessingSystem {
+public class CollisionDetectionSystem extends DualEntityProcessingSystem {
   protected ComponentMapper<Position> positionMapper;
   protected ComponentMapper<Bounds>  boundsMapper;
-  ImmutableBag<Entity> buckets;
 
-  private GroupManager groupManager;
   private AssetManager assetManager;
 
-  public enum CollisionGroup {
-    DROPLET, // We never actually use DROPLET. However, it might find use should more collidables be added.
-    BUCKET
-  }
+  private static Aspect.Builder droplets = Aspect.all(Position.class, Bounds.class, Collectible.class);
+  private static Aspect.Builder buckets = Aspect.all(Position.class, Bounds.class, Collector.class);
 
   public CollisionDetectionSystem() {
-    super(Aspect.all(Position.class, Bounds.class, Collectible.class));
+    super(buckets, droplets);
   }
 
   @Override
-  protected void begin() {
-    buckets = groupManager.getEntities(CollisionGroup.BUCKET.name());
-  }
-
-  @Override
-  protected void process(Entity e) {
-    buckets.forEach(bucket -> maybeCollectDroplet(bucket, e));
-  }
-
-  private void maybeCollectDroplet(Entity bucket, Entity droplet) {
+  protected void process(Entity bucket, Entity droplet) {
     Position dropletPosition = positionMapper.get(droplet);
     Bounds dropletBounds = boundsMapper.get(droplet);
     Position bucketPosition = positionMapper.get(bucket);
