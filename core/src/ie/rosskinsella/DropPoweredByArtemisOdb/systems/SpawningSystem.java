@@ -14,13 +14,15 @@ public class SpawningSystem extends BaseSystem {
 
   private Droplet dropletFactory;
   private Bucket bucketFactory;
+  private AssetManager assetManager;
 
   @Override
   protected void initialize() {
     bucketFactory
       .position(20, 60)
-      .bounds(64,64)
-      .sprite(AssetManager.SpriteFile.BUCKET)
+      .bounds(64, 64)
+      .spriteReference(AssetManager.SpriteFile.BUCKET)
+      .sprite()
       .playerControlled()
       .collector()
       .create();
@@ -34,7 +36,8 @@ public class SpawningSystem extends BaseSystem {
         .position(MathUtils.random(0, 800 - 64), 480)
         .gravity(200)
         .bounds(64, 64)
-        .sprite(AssetManager.SpriteFile.DROPLET)
+        .spriteReference(AssetManager.SpriteFile.DROPLET)
+        .sprite()
         .collectible()
         .create();
 

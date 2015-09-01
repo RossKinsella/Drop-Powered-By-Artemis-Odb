@@ -1,16 +1,17 @@
 package ie.rosskinsella.DropPoweredByArtemisOdb.components;
 
 import com.artemis.Component;
-import com.artemis.World;
+import com.artemis.annotations.Transient;
 import com.badlogic.gdx.graphics.Texture;
-import ie.rosskinsella.DropPoweredByArtemisOdb.managers.AssetManager;
 
+@Transient
 public class Sprite extends Component {
-  public AssetManager.SpriteFile spriteFile;
+  public Texture texture;
 
   public Sprite() {}
 
-  public Sprite(AssetManager.SpriteFile spriteFile) {
-    this.spriteFile = spriteFile;
+  public void init(Texture texture) {
+    this.texture = texture;
   }
+
 }

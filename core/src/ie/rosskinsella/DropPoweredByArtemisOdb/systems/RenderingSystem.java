@@ -7,25 +7,33 @@ import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Position;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Sprite;
+import ie.rosskinsella.DropPoweredByArtemisOdb.components.SpriteReference;
 import ie.rosskinsella.DropPoweredByArtemisOdb.managers.AssetManager;
 
 @Wire
 public class RenderingSystem extends EntityProcessingSystem {
   
-  protected ComponentMapper<Sprite> spriteMapper;
+  protected ComponentMapper<SpriteReference> spriteReferenceMapper;
+  protected ComponentMapper<Sprite>  spriteMapper;
   protected ComponentMapper<Position>  positionMapper;
 
   private SpriteBatch batch;
   private AssetManager assetManager;
 
   public RenderingSystem() {
-    super(Aspect.all(Sprite.class, Position.class));
+    super(Aspect.all(SpriteReference.class, Position.class, Sprite.class));
 
     batch = new SpriteBatch();
+  }
+
+  @Override
+  protected void inserted(int entityId) {
+    Sprite sprite = spriteMapper.get(entityId);
+    SpriteReference spriteReference = spriteReferenceMapper.get(entityId);
+    sprite.init(assetManager.get(spriteReference.spriteFile));
   }
 
   @Override
@@ -39,9 +47,8 @@ public class RenderingSystem extends EntityProcessingSystem {
   protected void process(Entity e) {
     Sprite sprite = spriteMapper.get(e);
     Position position = positionMapper.get(e);
-    Texture texture = assetManager.get(sprite.spriteFile); // TODO: Sanity check with community
 
-    batch.draw(texture, position.x, position.y);
+    batch.draw(sprite.texture, position.x, position.y);
   }
 
   @Override

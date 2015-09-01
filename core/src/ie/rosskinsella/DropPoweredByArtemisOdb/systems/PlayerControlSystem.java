@@ -10,7 +10,7 @@ import com.badlogic.gdx.Input;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Bounds;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.PlayerControlled;
 import ie.rosskinsella.DropPoweredByArtemisOdb.components.Position;
-import ie.rosskinsella.DropPoweredByArtemisOdb.components.Sprite;
+import ie.rosskinsella.DropPoweredByArtemisOdb.components.SpriteReference;
 
 @Wire
 public class PlayerControlSystem extends EntityProcessingSystem {
@@ -18,7 +18,7 @@ public class PlayerControlSystem extends EntityProcessingSystem {
   protected ComponentMapper<Position> positionMapper;
 
   public PlayerControlSystem() {
-    super(Aspect.all(PlayerControlled.class, Position.class, Sprite.class, Bounds.class));
+    super(Aspect.all(PlayerControlled.class, Position.class));
   }
 
   @Override
